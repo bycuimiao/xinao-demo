@@ -7,13 +7,18 @@
 
   <!--spring核心过滤器-->
   <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>
-      classpath*:applicationContext.xml
-    </param-value>
-  </context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>
+    classpath*:applicationContext.xml
+  </param-value>
+</context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+
+  <listener>
+    <listener-class>org.waters.listener.AmuletListener</listener-class>
   </listener>
 
   <!--编码过滤器-->
