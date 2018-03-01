@@ -44,9 +44,9 @@
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/" cache-period="31556926"/>-->
 
     <!--fastjson配置-->
-    <mvc:annotation-driven>
+    <!--<mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
-            <!-- 配置Fastjson支持 -->
+            &lt;!&ndash; 配置Fastjson支持 &ndash;&gt;
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
@@ -62,7 +62,7 @@
                 </property>
             </bean>
         </mvc:message-converters>
-    </mvc:annotation-driven>
+    </mvc:annotation-driven>-->
 
 
 </beans>
