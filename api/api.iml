@@ -43,5 +43,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.1.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.1.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.waters.forfun:amulet:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.17" level="project" />
   </component>
 </module>
