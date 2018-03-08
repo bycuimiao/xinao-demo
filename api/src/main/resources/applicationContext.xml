@@ -19,4 +19,5 @@
 
   <!-- aop annotation -->
   <!--<aop:aspectj-autoproxy proxy-target-class="true"/>-->
+  <import resource="spring-shiro.xml"/>
 </beans>

@@ -29,5 +29,6 @@ public class Hello {
     public void hello(){
         List<String> list = Arrays.asList("Hello", "World!");
         list.stream().forEach(System.out::println);
+
     }
 }
