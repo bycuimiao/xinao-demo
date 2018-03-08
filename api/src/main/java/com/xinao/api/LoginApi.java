@@ -32,6 +32,12 @@ public class LoginApi {
         try {
             //4、登录，即身份验证
             subject.login(token);
+            System.out.println("SESSION ID = " + SecurityUtils.getSubject().getSession().getId());
+            System.out.println("用户名：" + SecurityUtils.getSubject().getPrincipal());
+            System.out.println("HOST：" + SecurityUtils.getSubject().getSession().getHost());
+            System.out.println("TIMEOUT ：" + SecurityUtils.getSubject().getSession().getTimeout());
+            System.out.println("START：" + SecurityUtils.getSubject().getSession().getStartTimestamp());
+            System.out.println("LAST：" + SecurityUtils.getSubject().getSession().getLastAccessTime());
         } catch (AuthenticationException e) {
             //5、身份验证失败
             System.out.println("身份验证失败");
