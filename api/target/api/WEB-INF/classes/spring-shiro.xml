@@ -7,12 +7,20 @@
     <!-- 定义Session ID生成管理器 -->
     <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
     <!-- 配置Session DAO的操作处理 -->
-    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+    <!--<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        &lt;!&ndash; 设置session缓存的名字，这个名字可以任意 &ndash;&gt;
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        &lt;!&ndash; 定义该Session DAO操作中所使用的ID生成器 &ndash;&gt;
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>-->
+
+    <bean id="sessionDAO" class="com.xinao.shiro.session.SessionRedisDao">
         <!-- 设置session缓存的名字，这个名字可以任意 -->
         <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
         <!-- 定义该Session DAO操作中所使用的ID生成器 -->
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
+
     <!-- 缓存管理器 -->
     <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
         <!-- 设置ehcache缓存的配置文件 -->
