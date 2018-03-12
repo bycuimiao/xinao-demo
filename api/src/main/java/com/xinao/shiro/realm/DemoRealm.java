@@ -8,6 +8,7 @@ import org.apache.shiro.realm.Realm;
  * @date 2018/3/8/008  22:20
  * @Description: ${todo}
  */
+@Deprecated
 public class DemoRealm implements Realm {
     @Override
     public String getName() {

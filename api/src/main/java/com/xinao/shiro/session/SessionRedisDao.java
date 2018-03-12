@@ -16,6 +16,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 
+@Deprecated
 public class SessionRedisDao extends EnterpriseCacheSessionDAO {
 
     // 创建session，保存到数据库

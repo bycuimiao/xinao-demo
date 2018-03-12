@@ -13,6 +13,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+@Deprecated
 public class RedisDb {
     private static JedisPool jedisPool;
     // session 在redis过期时间是30分钟30*60
