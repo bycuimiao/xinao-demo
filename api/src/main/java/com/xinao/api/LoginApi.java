@@ -2,6 +2,8 @@ package com.xinao.api;
 
 import com.xinao.common.Result;
 import com.xinao.common.State;
+import com.xinao.common.model.UUser;
+import com.xinao.shiro.token.manager.TokenManager;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -27,11 +29,15 @@ public class LoginApi {
                         @RequestParam(value = "password" , required = false) String password){
         System.out.println(name);
         System.out.println(password);
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(name, password);
+        /*Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(name, password);*/
         try {
             //4、登录，即身份验证
-            subject.login(token);
+            //subject.login(token);
+            UUser uUser = new UUser();
+            uUser.setEmail("373013128@qq.com");
+            uUser.setPswd("123456");
+            TokenManager.login(uUser,false);
             System.out.println("SESSION ID = " + SecurityUtils.getSubject().getSession().getId());
             System.out.println("用户名：" + SecurityUtils.getSubject().getPrincipal());
             System.out.println("HOST：" + SecurityUtils.getSubject().getSession().getHost());

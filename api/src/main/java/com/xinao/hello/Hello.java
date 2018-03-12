@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2018/2/24/024  12:02
  * @Description: controller demo cuimiao+++.
  */
-@Controller
+//@Controller
 public class Hello {
 
     @Autowired

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * @date 2018/2/24/024  15:24
  * @Description: ${todo}
  */
-@Service
+//@Service
 public class HelloService {
     public HelloService(){
         System.out.println("init HelloService");
