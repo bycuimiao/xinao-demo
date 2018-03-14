@@ -56,10 +56,10 @@ public class SampleRealm extends AuthorizingRealm {
 		ShiroToken token = (ShiroToken) authcToken;
 		//UUser user = userService.login(token.getUsername(),token.getPswd());
 		UUser user = new UUser();
-		user.setId(1L);
-		user.setEmail("373013128@qq.com");
-		user.setNickname("cuimiao");
-		user.setPswd("123456");
+		//user.setId(1L);
+		user.setEmail(token.getUsername());
+		//user.setNickname("cuimiao");
+		user.setPswd(token.getPswd());
 		if(null == user){
 			throw new AccountException("帐号或密码不正确！");
 		/**
