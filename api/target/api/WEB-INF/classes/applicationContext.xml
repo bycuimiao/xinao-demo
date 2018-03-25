@@ -33,4 +33,22 @@
   <!-- 定时任务，运行去掉
   <import resource="spring-timer.xml"/>
    -->
+
+  <!-- redis数据源 -->
+  <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+    <property name="maxIdle" value="10" />
+    <property name="maxTotal" value="20" />
+    <property name="maxWaitMillis" value="1000" />
+    <property name="testOnBorrow" value="true" />
+  </bean>
+
+  <!-- redis连接池 -->
+  <bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy"  depends-on="poolConfig">
+    <constructor-arg name="poolConfig" ref="poolConfig" /> <!-- 加载jedisPool配置信息 -->
+    <constructor-arg name="host" value="127.0.0.1" /><!-- redis主机地址 -->
+    <constructor-arg name="port" value="6379"/> <!-- redis连接端口 -->
+    <!-- <constructor-arg name="password" value="${redis.pass}"/> 密码 -->
+    <!--<constructor-arg name="database" value="${redis.database}"/> 数据库 -->
+    <!--<constructor-arg name="timeout" value="${redis.timeout}"/> 连接超时 -->
+  </bean>
 </beans>

@@ -28,8 +28,11 @@
     </bean>
     <!-- custom shiro session listener -->
     <bean id="customSessionListener" class="com.xinao.shiro.listenter.CustomSessionListener">
-        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+        <property name="shiroSessionRepository" ref="jedisPoolShiroSessionRepository"/>
     </bean>
+    <!--<bean id="customSessionListener" class="com.xinao.shiro.redis.JedisPoolShiroSessionRepository">
+
+    </bean>-->
     <!-- 用户信息记住我功能的相关配置 -->
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="v_v-re-baidu"/>
@@ -51,12 +54,12 @@
 
     <!-- custom shiro session listener -->
     <bean id="customShiroSessionDAO" class="com.xinao.shiro.session.CustomShiroSessionDAO">
-        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+        <property name="shiroSessionRepository" ref="jedisPoolShiroSessionRepository"/>
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
     <!-- 手动操作Session，管理Session -->
     <bean id="customSessionManager" class="com.xinao.shiro.session.CustomSessionManager">
-        <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+        <property name="shiroSessionRepository" ref="jedisPoolShiroSessionRepository"/>
         <property name="customShiroSessionDAO" ref="customShiroSessionDAO"/>
     </bean>
 
@@ -71,21 +74,21 @@
         <property name="realm" ref="sampleRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
-        <property name="cacheManager" ref="customShiroCacheManager"/>
+        <!--<property name="cacheManager" ref="customShiroCacheManager"/>-->
     </bean>
     <!-- 用户缓存 -->
-    <bean id="customShiroCacheManager" class="com.xinao.shiro.cache.impl.CustomShiroCacheManager">
+    <!--<bean id="customShiroCacheManager" class="com.xinao.shiro.cache.impl.CustomShiroCacheManager">
         <property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
-    </bean>
+    </bean>-->
 
     <!-- shiro 缓存实现，对ShiroCacheManager，我是采用redis的实现 -->
-    <bean id="jedisShiroCacheManager" class="com.xinao.shiro.cache.impl.JedisShiroCacheManager">
+   <!-- <bean id="jedisShiroCacheManager" class="com.xinao.shiro.cache.impl.JedisShiroCacheManager">
         <property name="jedisManager" ref="jedisManager"/>
-    </bean>
+    </bean>-->
     <!-- redis 的缓存 -->
-    <bean id="jedisManager" class="com.xinao.shiro.cache.JedisManager">
+    <!--<bean id="jedisManager" class="com.xinao.shiro.cache.JedisManager">
         <property name="jedisPool" ref="jedisPool"/>
-    </bean>
+    </bean>-->
     <!-- 静态注入，相当于调用SecurityUtils.setSecurityManager(securityManager) -->
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
@@ -98,7 +101,7 @@
     <!-- 静态注入 jedisShiroSessionRepository-->
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="com.xinao.shiro.filter.KickoutSessionFilter.setShiroSessionRepository"/>
-        <property name="arguments" ref="jedisShiroSessionRepository"/>
+        <property name="arguments" ref="jedisPoolShiroSessionRepository"/>
     </bean>
 
 
@@ -133,8 +136,11 @@
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
     </bean>
     <!-- session 创建、删除、查询 -->
-    <bean id="jedisShiroSessionRepository" class="com.xinao.shiro.cache.JedisShiroSessionRepository" >
+    <!--<bean id="jedisShiroSessionRepository" class="com.xinao.shiro.cache.JedisShiroSessionRepository" >
         <property name="jedisManager" ref="jedisManager"/>
+    </bean>-->
+    <bean id="jedisPoolShiroSessionRepository" class="com.xinao.shiro.redis.JedisPoolShiroSessionRepository" >
+
     </bean>
 
     <!--

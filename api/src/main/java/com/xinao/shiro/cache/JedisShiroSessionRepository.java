@@ -16,7 +16,8 @@ import java.util.Collection;
  *
  */
 @SuppressWarnings("unchecked")
-public class JedisShiroSessionRepository implements ShiroSessionRepository {
+//public class JedisShiroSessionRepository implements ShiroSessionRepository {
+public class JedisShiroSessionRepository {
     public static final String REDIS_SHIRO_SESSION = "cuimiao-shiro-demo-session:";
     //这里有个小BUG，因为Redis使用序列化后，Key反序列化回来发现前面有一段乱码，解决的办法是存储缓存不序列化
     public static final String REDIS_SHIRO_ALL = "*cuimiao-shiro-demo-session:*";
@@ -25,7 +26,7 @@ public class JedisShiroSessionRepository implements ShiroSessionRepository {
 
     private JedisManager jedisManager;
 
-    @Override
+
     public void saveSession(Session session) {
         if (session == null || session.getId() == null)
             throw new NullPointerException("session is empty");
@@ -65,7 +66,7 @@ public class JedisShiroSessionRepository implements ShiroSessionRepository {
         }
     }
 
-    @Override
+
     public void deleteSession(Serializable id) {
         if (id == null) {
             throw new NullPointerException("session id is empty");
@@ -79,7 +80,7 @@ public class JedisShiroSessionRepository implements ShiroSessionRepository {
     }
 
    
-	@Override
+
     public Session getSession(Serializable id) {
         if (id == null)
         	 throw new NullPointerException("session id is empty");
@@ -94,7 +95,7 @@ public class JedisShiroSessionRepository implements ShiroSessionRepository {
         return session;
     }
 
-    @Override
+
     public Collection<Session> getAllSessions() {
     	Collection<Session> sessions = null;
 		try {
