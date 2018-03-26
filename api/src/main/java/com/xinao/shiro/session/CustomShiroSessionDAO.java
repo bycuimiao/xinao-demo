@@ -1,6 +1,10 @@
+/*
+ * Created by guanshang on 2016-11-09.
+ */
+
 package com.xinao.shiro.session;
 
-import com.xinao.common.util.LoggerUtils;
+import com.xinao.shiro.util.LoggerUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
@@ -9,60 +13,44 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * 开发公司：SOJSON在线工具 <p>
- * 版权所有：© www.sojson.com<p>
- * 博客地址：http://www.sojson.com/blog/  <p>
- * <p>
- * <p>
- * Session 操作
- * <p>
- * <p>
- * <p>
- * 区分　责任人　日期　　　　说明<br/>
- * 创建　周柏成　2016年6月2日 　<br/>
- *
- * @author zhou-baicheng
- * @version 1.0, 2016年6月2日 <br/>
- * @email so@sojson.com
+ * @author guanshang
+ * @version 0.0.1
+ * @since 0.0.1 2016-11-09
  */
-public class CustomShiroSessionDAO extends AbstractSessionDAO {
+public class CustomShiroSessionDao extends AbstractSessionDAO {
 
-  private ShiroSessionRepository shiroSessionRepository;
+  private IShiroSessionRepository shiroSessionRepository;
 
-  public ShiroSessionRepository getShiroSessionRepository() {
+
+  public IShiroSessionRepository getShiroSessionRepository() {
     return shiroSessionRepository;
   }
 
   public void setShiroSessionRepository(
-      ShiroSessionRepository shiroSessionRepository) {
+      IShiroSessionRepository shiroSessionRepository) {
     this.shiroSessionRepository = shiroSessionRepository;
   }
 
   @Override
   public void update(Session session) throws UnknownSessionException {
     getShiroSessionRepository().saveSession(session);
-    //TODO
   }
 
   @Override
   public void delete(Session session) {
     if (session == null) {
-      LoggerUtils.error(getClass(), "Session 不能为null");
+      LoggerUtils.error(this.getClass(), "session is not null");
       return;
     }
     Serializable id = session.getId();
     if (id != null) {
       getShiroSessionRepository().deleteSession(id);
-      //TODO
     }
-
   }
 
   @Override
   public Collection<Session> getActiveSessions() {
-    //TODO
     return getShiroSessionRepository().getAllSessions();
-    //return null;
   }
 
   @Override
@@ -70,14 +58,11 @@ public class CustomShiroSessionDAO extends AbstractSessionDAO {
     Serializable sessionId = this.generateSessionId(session);
     this.assignSessionId(session, sessionId);
     getShiroSessionRepository().saveSession(session);
-    //TODO 报错session
     return sessionId;
   }
 
   @Override
   protected Session doReadSession(Serializable sessionId) {
-    //TODO
     return getShiroSessionRepository().getSession(sessionId);
-    //return null;
   }
 }

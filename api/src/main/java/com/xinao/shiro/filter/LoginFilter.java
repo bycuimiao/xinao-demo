@@ -1,64 +1,63 @@
+/*
+ * Created by guanshang on 2016-11-09.
+ */
+
 package com.xinao.shiro.filter;
 
-
-import com.xinao.common.model.UUser;
-import com.xinao.common.util.LoggerUtils;
+import com.xinao.entity.User;
+import com.xinao.shiro.enums.ErrorCode;
 import com.xinao.shiro.token.manager.TokenManager;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * 
- * 开发公司：SOJSON在线工具 <p>
- * 版权所有：© www.sojson.com<p>
- * 博客地址：http://www.sojson.com/blog/  <p>
- * <p>
- * 
- * 判断登录
- * 
- * <p>
- * 
- * 区分　责任人　日期　　　　说明<br/>
- * 创建　周柏成　2016年6月2日 　<br/>
- *
- * @author zhou-baicheng
- * @email  so@sojson.com
- * @version 1.0,2016年6月2日 <br/>
- * 
+ * @author guanshang
+ * @version 0.0.1
+ * @since 0.0.1 2016-11-09
  */
-public class LoginFilter  extends AccessControlFilter {
-	final static Class<LoginFilter> CLASS = LoginFilter.class;
-	@Override
-	protected boolean isAccessAllowed(ServletRequest request,
-                                      ServletResponse response, Object mappedValue) throws Exception {
-		
-		UUser token = TokenManager.getToken();
-		
-		if(null != token || isLoginRequest(request, response)){// && isEnabled()
-            return Boolean.TRUE;
-        } 
-		if (ShiroFilterUtils.isAjax(request)) {// ajax请求
-			Map<String,String> resultMap = new HashMap<String, String>();
-			LoggerUtils.debug(getClass(), "当前用户没有登录，并且是Ajax请求！");
-			resultMap.put("login_status", "300");
-			resultMap.put("message", "\u5F53\u524D\u7528\u6237\u6CA1\u6709\u767B\u5F55\uFF01");//当前用户没有登录！
-			ShiroFilterUtils.out(response, resultMap);
-		}
-		return Boolean.FALSE ;
-            
-	}
+public class LoginFilter extends AccessControlFilter {
+  private Logger logger = LoggerFactory.getLogger(LoginFilter.class);
 
-	@Override
-	protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
-			throws Exception {
-		//保存Request和Response 到登录后的链接
-		saveRequestAndRedirectToLogin(request, response);
-		return Boolean.FALSE ;
-	}
-	
+  @Override
+  protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+    Subject subject = SecurityUtils.getSubject();
+    User token = (User) subject.getPrincipal();
 
+    if (null != token || isLoginRequest(request, response)) {
+      //判断用户是通过记住我功能自动登录,此时session失效-需要维护session.
+      if (!subject.isAuthenticated() && subject.isRemembered()) {
+        logger.info("current user login with remembered me");
+        TokenManager.login(token, true);
+      }
+      return Boolean.TRUE;
+    }
+    return Boolean.FALSE;
+  }
+
+  @Override
+  protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+    if (ShiroFilterUtils.isAjax(request)) {
+      ShiroFilterUtils.errorRstOut("current user no login or logout", ErrorCode.NOTLOGIN, request, response);
+      return Boolean.FALSE;
+    }
+
+    try {
+      if (ShiroFilterUtils.isAppRequest(request)) {
+        ShiroFilterUtils.errorRstOut("current user no login or logout", ErrorCode.NOTLOGIN, request, response);
+      } else {
+        WebUtils.getSavedRequest(request);
+        WebUtils.issueRedirect(request, response, ShiroFilterUtils.LOGIN_URL);
+      }
+    } catch (Exception e) {
+      logger.warn("WebUtils.issueRedirect error :" + ShiroFilterUtils.LOGIN_URL, e.getMessage());
+    }
+    return Boolean.FALSE;
+  }
 }
