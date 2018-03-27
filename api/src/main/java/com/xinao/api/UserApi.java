@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/user")
 public class UserApi {
+
+
+
     @RequestMapping(value = "/" , method = RequestMethod.GET)
     @ResponseBody
     public Result list(){
