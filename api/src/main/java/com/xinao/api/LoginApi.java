@@ -32,9 +32,10 @@ public class LoginApi {
         System.out.println(password);
 
         User user = new User();
-        user.setName("cuimiao");
-        user.setPhone("18516983647");
-        user.setPassword("123456");
+        user.setName(name);
+        user.setPhone(name);
+        user.setPassword(password);
+        //TODO 对密码进行加密
         user = TokenManager.login(user, true);
 
 
@@ -55,7 +56,7 @@ public class LoginApi {
         }*/
         Result<String,State> result = new Result<>();
         result.setCode(State.SUCCESS);
-        result.setData("cuimiao");
+        result.setData(name);
         return result;
     }
 

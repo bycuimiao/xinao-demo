@@ -4,6 +4,7 @@
 
 package com.xinao.shiro.token;
 
+import com.xinao.bl.service.UserService;
 import com.xinao.common.Result;
 import com.xinao.common.State;
 import com.xinao.entity.User;
@@ -48,6 +49,9 @@ import java.util.TreeSet;
 public class SampleRealm extends AuthorizingRealm {
   protected static Logger logger = LoggerFactory.getLogger(SampleRealm.class);
 
+  @Autowired
+  private UserService userService;
+
   public SampleRealm() {
     super();
   }
@@ -73,10 +77,8 @@ public class SampleRealm extends AuthorizingRealm {
       user.setLastLoginTime(new Date());
       userService.updateUser(user);
     }*/
-    User user = new User();
-    user.setName("cuimiao");
-    user.setPhone("18516983647");
-    user.setPassword("123456");
+    //TODO 从持久层获取user
+    User user = userService.findUser();
     return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
   }
 
@@ -89,7 +91,7 @@ public class SampleRealm extends AuthorizingRealm {
     SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
     //根据用户ID查询权限（permission），放入到Authorization里。
     Set<String> permissions = new TreeSet<>();
-    permissions.add("/user");
+    permissions.add("/user/_get");
    /* ResultSet<Privilege, State> rstSet = privilegeService.findUserPrivileges(user.getEnterpriseId(), user.getId(), null, null);
     if (State.SUCCESS == rstSet.getCode() && rstSet.getData() != null && rstSet.getData().size() > 0) {
       String[] caseUrlTypeArr = null;

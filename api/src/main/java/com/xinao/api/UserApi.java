@@ -35,6 +35,7 @@ public class UserApi {
         result.setCode(State.SUCCESS);*/
         User user = TokenManager.getToken();
         System.out.println(user.getName());
+        result.setCode(State.SUCCESS);
         return result;
     }
 }
