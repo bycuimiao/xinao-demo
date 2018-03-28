@@ -10,6 +10,8 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +31,15 @@ public class LoginApi {
     @Autowired
     private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(LoginApi.class);
+
     @RequestMapping(value = "/" , method = RequestMethod.GET)
     @ResponseBody
     public Result<State,State> login(@RequestParam(value = "name" , required = false) String name ,
                         @RequestParam(value = "phone" , required = false) String phone ,
                         @RequestParam(value = "password" , required = true) String password){
+        logger.debug("a hhhhhhhhhhhh log success");
+        logger.error("error qqqqqqqqqqqqqqqqq");
         Result<State,State> result = new Result<>();
         Result<User,State> resultUser = userService.findUserByPhone(phone);
         try {
