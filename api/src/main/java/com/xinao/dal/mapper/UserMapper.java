@@ -4,7 +4,11 @@
 
 package com.xinao.dal.mapper;
 
+import com.xinao.common.util.Parameters;
 import com.xinao.entity.User;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author cuimiao
@@ -13,4 +17,5 @@ import com.xinao.entity.User;
  */
 public interface UserMapper {
   User findUser();
+  List<User> findUsers(Map<String, Object> params);
 }

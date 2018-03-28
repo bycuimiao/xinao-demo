@@ -1,5 +1,6 @@
 package com.xinao.api;
 
+import com.xinao.bl.service.UserService;
 import com.xinao.common.Result;
 import com.xinao.common.State;
 import com.xinao.entity.User;
@@ -9,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,39 +26,33 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/login")
 public class LoginApi {
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "/" , method = RequestMethod.GET)
     @ResponseBody
-    public Result login(@RequestParam(value = "name" , required = false) String name ,
-                        @RequestParam(value = "password" , required = false) String password){
-        System.out.println(name);
-        System.out.println(password);
-
-        User user = new User();
-        user.setName(name);
-        user.setPhone(name);
-        user.setPassword(password);
-        //TODO 对密码进行加密
-        user = TokenManager.login(user, true);
-
-
-        /*Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(name, password);
+    public Result<State,State> login(@RequestParam(value = "name" , required = false) String name ,
+                        @RequestParam(value = "phone" , required = false) String phone ,
+                        @RequestParam(value = "password" , required = true) String password){
+        Result<State,State> result = new Result<>();
+        Result<User,State> resultUser = userService.findUserByPhone(phone);
         try {
-            //4、登录，即身份验证
-            subject.login(token);
-            System.out.println("SESSION ID = " + SecurityUtils.getSubject().getSession().getId());
-            System.out.println("用户名：" + SecurityUtils.getSubject().getPrincipal());
-            System.out.println("HOST：" + SecurityUtils.getSubject().getSession().getHost());
-            System.out.println("TIMEOUT ：" + SecurityUtils.getSubject().getSession().getTimeout());
-            System.out.println("START：" + SecurityUtils.getSubject().getSession().getStartTimestamp());
-            System.out.println("LAST：" + SecurityUtils.getSubject().getSession().getLastAccessTime());
-        } catch (AuthenticationException e) {
-            //5、身份验证失败
-            System.out.println("身份验证失败");
-        }*/
-        Result<String,State> result = new Result<>();
-        result.setCode(State.SUCCESS);
-        result.setData(name);
+            if(State.SUCCESS.equals(resultUser.getCode())){
+                User user = resultUser.getData();
+                //TODO 对密码进行加密
+                user = TokenManager.login(user, true);
+                result.setCode(State.SUCCESS);
+                result.setMessage("登录成功");
+            }else {
+
+                result.setCode(State.FAILED);
+            }
+        }catch (Exception e){
+            //TODO
+            System.out.println(e.getMessage());
+            result.setCode(State.FAILED);
+        }
+
         return result;
     }
 

@@ -78,7 +78,11 @@ public class SampleRealm extends AuthorizingRealm {
       userService.updateUser(user);
     }*/
     //TODO 从持久层获取user
-    User user = userService.findUser();
+    Result<User,State> result = userService.login(token.getUsername(),token.getPswd());
+    User user = State.SUCCESS == result.getCode() ? result.getData() : null;
+    if(user == null){
+      throw new AccountException("帐号或密码不正确！");
+    }
     return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
   }
 

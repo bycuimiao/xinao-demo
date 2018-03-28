@@ -89,18 +89,18 @@ public class TokenManager {
    *
    * @return 企业ID
    */
-  public static Long getEnterpriseId() {
+  /*public static Long getEnterpriseId() {
     return getToken() == null ? Long.valueOf(1L) : getToken().getEnterpriseId();
-  }
+  }*/
 
   /**
    * 后获取当前用户的企业ID.
    *
    * @return 企业ID
    */
-  public static Long getDepartmentId() {
+  /*public static Long getDepartmentId() {
     return getToken() == null ? Long.valueOf(1L) : getToken().getDepartmentId();
-  }
+  }*/
 
   /**
    * 把值放入到当前登录用户的Session里.
@@ -127,14 +127,14 @@ public class TokenManager {
    *
    * @return 关联部门信息
    */
-  public static List<Long> getAssociateDepartments() {
+  /*public static List<Long> getAssociateDepartments() {
     List<Long> associateDepartments = (List<Long>) getSession().getAttribute(SESSION_ASSOCIATE_DEPARTMENTS);
     try {
       if (associateDepartments == null || associateDepartments.size() == 0 //
           || !associateDepartments.contains(getToken().getDepartmentId())) {
         //将部门+下级部门信息放入session
-        /*List<Long> subDepartments = departmentService.findSubDepartments(getToken().getEnterpriseId(), //
-            getToken().getDepartmentId()).getData();*/
+        *//*List<Long> subDepartments = departmentService.findSubDepartments(getToken().getEnterpriseId(), //
+            getToken().getDepartmentId()).getData();*//*
         //associateDepartments = subDepartments == null ? new ArrayList<>() : subDepartments;
         associateDepartments.add(getToken().getDepartmentId());
         getSession().setAttribute(TokenManager.SESSION_ASSOCIATE_DEPARTMENTS, associateDepartments);
@@ -143,7 +143,7 @@ public class TokenManager {
       LoggerUtils.error(TokenManager.class, "getAssociateDepartments error", e);
     }
     return associateDepartments;
-  }
+  }*/
 
   /**
    * 获取验证码，获取一次后删除.
