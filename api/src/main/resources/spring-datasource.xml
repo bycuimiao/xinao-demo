@@ -15,19 +15,19 @@
     <bean id="mysqlDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <!-- Connection Info -->
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/xinao?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;useSSL=false"/>
+        <property name="jdbcUrl" value="jdbc:mysql://${mysql.jdbc.host}:${mysql.jdbc.port}/${mysql.jdbc.db}?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;useSSL=false"/>
         <property name="user" value="root"/>
         <property name="password" value="root"/>
 
-        <!--<property name="acquireIncrement" value="${acquireIncrement}"/>
+        <property name="acquireIncrement" value="${acquireIncrement}"/>
         <property name="idleConnectionTestPeriod" value="${idleConnectionTestPeriod}"/>
         <property name="checkoutTimeout" value="${checkoutTimeout}"/>
         <property name="maxPoolSize" value="${maxPoolSize}"/>
         <property name="minPoolSize" value="${minPoolSize}"/>
         <property name="maxStatements" value="${maxStatements}"/>
-        <property name="initialPoolSize" value="${initialPoolSize}"/>-->
-        <!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
-        <!--<property name="maxIdleTime" value="${maxIdleTime}"/>-->
+        <property name="initialPoolSize" value="${initialPoolSize}"/>
+        <!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0-->
+        <property name="maxIdleTime" value="${maxIdleTime}"/>
 
     </bean>
 

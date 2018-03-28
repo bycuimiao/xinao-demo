@@ -19,7 +19,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--<tms.version>1.0.50</tms.version>--><!--tms.version-->
     </properties>
 
@@ -253,4 +253,49 @@
         </dependency>
     </dependencies>
 
+
+    <!--maven读取配置，加载不同的配置文件-->
+    <build>
+        <finalName>xinao-demo</finalName>
+
+        <filters>
+            <filter>./${props}.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <properties>
+                <props>api_dev</props>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>local_test</id>
+            <properties>
+                <props>api_local_test</props>
+            </properties>
+        </profile>
+        <profile>
+            <id>idc_test</id>
+            <properties>
+                <props>api_idc_test</props>
+            </properties>
+        </profile>
+        <profile>
+            <id>idc_product</id>
+            <properties>
+                <props>api_idc_product</props>
+            </properties>
+        </profile>
+    </profiles>
 </project>

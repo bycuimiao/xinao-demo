@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOG_HOME" value="G://test-logs" />
+    <!--<property name="LOG_HOME" value="${log.home}"/>-->
+    <property name="LOG_HOME" value="G://testLogs" />
     <!--控制台输出-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- 日志输出编码 -->

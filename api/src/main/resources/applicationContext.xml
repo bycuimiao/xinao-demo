@@ -23,4 +23,7 @@
     <!-- aop annotation -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
+    <!--读取config配置文件-->
+    <context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
+
 </beans>
