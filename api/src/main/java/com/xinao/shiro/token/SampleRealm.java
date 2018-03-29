@@ -4,9 +4,11 @@
 
 package com.xinao.shiro.token;
 
+import com.xinao.bl.service.PrivilegeService;
 import com.xinao.bl.service.UserService;
 import com.xinao.common.Result;
 import com.xinao.common.State;
+import com.xinao.entity.Privilege;
 import com.xinao.entity.User;
 import com.xinao.shiro.common.ShiroConstant;
 import com.xinao.shiro.token.manager.TokenManager;
@@ -38,6 +40,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -51,6 +54,9 @@ public class SampleRealm extends AuthorizingRealm {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private PrivilegeService privilegeService;
 
   public SampleRealm() {
     super();
@@ -95,7 +101,10 @@ public class SampleRealm extends AuthorizingRealm {
     SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
     //根据用户ID查询权限（permission），放入到Authorization里。
     Set<String> permissions = new TreeSet<>();
-    permissions.add("/user/_get");
+    Result<List<Privilege>,State> result = privilegeService.findPrivileges(user.getId());
+    if(State.SUCCESS == result.getCode()){
+      //List<Privilege>
+    }
    /* ResultSet<Privilege, State> rstSet = privilegeService.findUserPrivileges(user.getEnterpriseId(), user.getId(), null, null);
     if (State.SUCCESS == rstSet.getCode() && rstSet.getData() != null && rstSet.getData().size() > 0) {
       String[] caseUrlTypeArr = null;

@@ -25,7 +25,7 @@ import java.util.Optional;
  * @Description:
  * @since 0.0.1 2018-03-27
  */
-@Service
+@Service(value = "userService")
 public class UserServiceImpl implements UserService {
 
   @Autowired(required = false)
