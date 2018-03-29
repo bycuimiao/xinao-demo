@@ -37,6 +37,8 @@ public class User implements Serializable {
    */
   private Date updateTime;
 
+  private Role role;
+
   public Long getId() {
     return id;
   }
@@ -91,5 +93,13 @@ public class User implements Serializable {
 
   public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
   }
 }

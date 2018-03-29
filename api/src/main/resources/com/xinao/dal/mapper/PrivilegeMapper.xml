@@ -15,8 +15,10 @@
     <select id="findPrivileges" resultMap="privilegeResultMap" parameterType="java.lang.Long">
         SELECT
         p.id,
-        p.mame,
-        p.url
+        p.name,
+        p.url,
+        p.type,
+        p.create_time
         FROM
         `user` u
         LEFT JOIN role r ON r.id = u.role_id
@@ -24,32 +26,6 @@
         LEFT JOIN privilege p ON p.id = rp.privilege_id
         <where>
             u.id = #{id}
-        </where>
-    </select>
-
-    <select id="findUsers" resultMap="userResultMap" parameterType="java.util.Map">
-        select
-        id,
-        name,
-        phone,
-        password,
-        role_id,
-        create_time,
-        update_time
-        FROM user
-        <where>
-            <if test="@com.xinao.common.util.Ognl@isNotEmpty(id_eq)">
-                AND id=#{id_eq}
-            </if>
-            <if test="@com.xinao.common.util.Ognl@isNotEmpty(name_eq)">
-                AND name=#{name_eq}
-            </if>
-            <if test="@com.xinao.common.util.Ognl@isNotEmpty(phone_eq)">
-                AND phone=#{phone_eq}
-            </if>
-            <if test="@com.xinao.common.util.Ognl@isNotEmpty(password_eq)">
-                AND password=#{password_eq}
-            </if>
         </where>
     </select>
 </mapper>

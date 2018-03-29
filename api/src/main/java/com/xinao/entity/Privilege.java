@@ -27,6 +27,8 @@ public class Privilege implements Serializable {
    */
   private String url;
 
+  private String type;
+
   /**
    * 创建时间.
    */
@@ -74,5 +76,13 @@ public class Privilege implements Serializable {
 
   public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }

@@ -67,16 +67,23 @@
                 <MaxFileSize>200MB</MaxFileSize>
             </TimeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
 
     <logger name="com.xinao" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="XINAO"/>
+        <appender-ref ref="XINAO_ERROR"/>
     </logger>
 
     <!--把业务error日志输出到一个文件中-->
-    <logger name="com.xinao" level="ERROR" additivity="false">
+    <!--<logger name="com.xinao" level="ERROR" additivity="false">
         <appender-ref ref="XINAO_ERROR"/>
-    </logger>
+    </logger>-->
 
     <logger name="org.springframework" level="INFO" additivity="true">
         <appender-ref ref="FILE"/>

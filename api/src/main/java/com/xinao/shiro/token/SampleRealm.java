@@ -43,6 +43,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * @author guanshang
@@ -66,9 +67,9 @@ public class SampleRealm extends AuthorizingRealm {
    * 认证信息，主要针对用户登录.
    */
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
-
     ShiroToken token = (ShiroToken) authcToken;
-    System.out.println(token.getUsername() + token.getPswd());
+    logger.info(token.getUsername() + "进入认证方法");
+    //System.out.println(token.getUsername() + token.getPswd());
     /*Result<User, State> result = userService.login(token.getUsername(), token.getPswd());
     User user = State.SUCCESS == result.getCode() ? result.getData() : null;
     if (null == user) {
@@ -84,9 +85,9 @@ public class SampleRealm extends AuthorizingRealm {
       userService.updateUser(user);
     }*/
     //TODO 从持久层获取user
-    Result<User,State> result = userService.login(token.getUsername(),token.getPswd());
+    Result<User, State> result = userService.login(token.getUsername(), token.getPswd());
     User user = State.SUCCESS == result.getCode() ? result.getData() : null;
-    if(user == null){
+    if (user == null) {
       throw new AccountException("帐号或密码不正确！");
     }
     return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
@@ -98,31 +99,17 @@ public class SampleRealm extends AuthorizingRealm {
   @Override
   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
     User user = TokenManager.getToken();
+    logger.info(user.getPhone() + "进入授权方法");
     SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
     //根据用户ID查询权限（permission），放入到Authorization里。
     Set<String> permissions = new TreeSet<>();
-    Result<List<Privilege>,State> result = privilegeService.findPrivileges(user.getId());
-    if(State.SUCCESS == result.getCode()){
-      //List<Privilege>
+    Result<List<Privilege>, State> result = privilegeService.findPrivileges(user.getId());
+    if (State.SUCCESS == result.getCode()) {
+      List<Privilege> privilegeList = result.getData();
+      permissions = privilegeList.stream()
+          .map((privilege) -> privilege.getUrl() + "_" + privilege.getType())
+          .collect(Collectors.toSet());
     }
-   /* ResultSet<Privilege, State> rstSet = privilegeService.findUserPrivileges(user.getEnterpriseId(), user.getId(), null, null);
-    if (State.SUCCESS == rstSet.getCode() && rstSet.getData() != null && rstSet.getData().size() > 0) {
-      String[] caseUrlTypeArr = null;
-      for (Privilege privi : rstSet.getData()) {
-        if (privi == null || privi.getUrl() == null || privi.getReqType() == null) {
-          continue;
-        }
-        permissions.add(privi.getUrl() + "_" + privi.getReqType().getValue());
-        if (StringUtils.isNotBlank(privi.getCaseUrlType())) {
-          caseUrlTypeArr = privi.getCaseUrlType().split(";");
-          for (String s : caseUrlTypeArr) {
-            if (StringUtils.isNotBlank(s) && s.indexOf("_") != -1) {
-              permissions.add(s);
-            }
-          }
-        }
-      }
-    }*/
     info.setStringPermissions(permissions);
     return info;
   }
