@@ -41,4 +41,21 @@ public class UserApi {
         result.setCode(State.SUCCESS);
         return result;
     }
+
+    @RequestMapping(value = "/page" , method = RequestMethod.GET)
+    @ResponseBody
+    public Result page(){
+        Result<String,State> result = new Result<>();
+        //UUser uUser = TokenManager.getToken();
+        /*Subject subject = SecurityUtils.getSubject();
+        String name = (String) subject.getPrincipal();
+        System.out.println(name);
+        String sessionId = (String) subject.getSession().getId();
+        System.out.println(sessionId);
+        result.setCode(State.SUCCESS);*/
+        User user = TokenManager.getToken();
+        System.out.println(user.getName());
+        result.setCode(State.SUCCESS);
+        return result;
+    }
 }

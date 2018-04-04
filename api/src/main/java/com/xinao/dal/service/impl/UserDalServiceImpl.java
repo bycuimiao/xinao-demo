@@ -8,6 +8,8 @@ import com.xinao.common.util.Parameters;
 import com.xinao.dal.mapper.UserMapper;
 import com.xinao.dal.service.UserDalService;
 import com.xinao.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +24,8 @@ import java.util.Optional;
  */
 @Repository(value = "userDalService")
 public class UserDalServiceImpl implements UserDalService{
+
+  private Logger logger = LoggerFactory.getLogger(UserDalServiceImpl.class);
 
   @Autowired
   private UserMapper userMapper;

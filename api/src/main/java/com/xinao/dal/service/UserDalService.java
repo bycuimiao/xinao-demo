@@ -4,6 +4,7 @@
 
 package com.xinao.dal.service;
 
+import com.xinao.common.util.Parameter;
 import com.xinao.common.util.Parameters;
 import com.xinao.entity.User;
 

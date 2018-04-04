@@ -232,6 +232,12 @@
             <artifactId>mybatis</artifactId>
             <version>3.4.1</version>
         </dependency>
+        <!--支持java8时间格式-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-typehandlers-jsr310</artifactId>
+            <version>1.0.1</version>
+        </dependency>
         <!--mysql依赖包-->
         <dependency>
             <groupId>mysql</groupId>

@@ -4,7 +4,9 @@
 
 package com.xinao.bl.service.impl;
 
+import com.xinao.common.Limit;
 import com.xinao.common.Result;
+import com.xinao.common.ResultSet;
 import com.xinao.common.State;
 import com.xinao.common.util.Parameters;
 import com.xinao.dal.mapper.UserMapper;
@@ -12,6 +14,8 @@ import com.xinao.dal.service.UserDalService;
 import com.xinao.dal.service.impl.UserDalServiceImpl;
 import com.xinao.entity.User;
 import com.xinao.bl.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +31,8 @@ import java.util.Optional;
  */
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
+
+  private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Autowired(required = false)
   private UserMapper userMapper;
@@ -85,6 +91,22 @@ public class UserServiceImpl implements UserService {
       result.setData(users.get(0));
     } catch (Exception e) {
       //TODO
+      result.setCode(State.FAILED);
+    }
+    return result;
+  }
+
+  @Override
+  public ResultSet<User, State> findUsers(Limit limit) {
+    ResultSet<User, State> result = new ResultSet<>();
+    try {
+      Parameters parameters = UserDalServiceImpl.getParameters();
+      parameters.setLimit(limit);
+      List<User> users = userDalService.findUsers(parameters);
+      result.setCode(State.SUCCESS);
+      result.setData(users);
+    } catch (Exception e) {
+      logger.error(e.getMessage());
       result.setCode(State.FAILED);
     }
     return result;

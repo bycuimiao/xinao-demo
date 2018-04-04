@@ -4,6 +4,8 @@
 
 package com.xinao.common.util;
 
+import com.xinao.common.Limit;
+import com.xinao.common.OrderBy;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
@@ -23,11 +25,38 @@ public class Parameters implements Serializable {
   private static final long serialVersionUID = 7575610382439848078L;
   private List<String> paramKeys = new ArrayList<>(10); //支持的参数名
   private List<Parameter> params = new ArrayList<>(10);
-  //private List<OrderBy> orderBies = new ArrayList<>(5);
-  //private List<String> groupBies = new ArrayList<>(5);
-  //private Limit limit;
+  private List<OrderBy> orderBies = new ArrayList<>(5);
+  private List<String> groupBies = new ArrayList<>(5);
+  private Limit limit;
 
-  /*public List<String> getGroupBies() {
+
+  /**
+   * 增加排序条件.
+   *
+   * @param order 排序条件
+   * @return {@link Parameters}
+   */
+  public Parameters addOrderBy(OrderBy order) {
+    orderBies.add(order);
+    return this;
+  }
+
+  public List<OrderBy> getOrderBies() {
+    return orderBies;
+  }
+
+  /**
+   * 增加分组条件.
+   *
+   * @param column 分组字段
+   * @return {@link Parameters}
+   */
+  public Parameters addGroupBy(String column) {
+    groupBies.add(column);
+    return this;
+  }
+
+  public List<String> getGroupBies() {
     return groupBies;
   }
 
@@ -37,7 +66,7 @@ public class Parameters implements Serializable {
 
   public void setLimit(Limit limit) {
     this.limit = limit;
-  }*/
+  }
 
   /**
    * 将参数列表转换为Map，map的key形式为：{@code param.getName+ "_" + param.getOperator().getName()}，
@@ -56,7 +85,7 @@ public class Parameters implements Serializable {
     }
 
     //order by
-    /*if (!orderBies.isEmpty()) {
+    if (!orderBies.isEmpty()) {
       paramMap.put("orderBies", orderBies);
     }
     //group by
@@ -66,7 +95,7 @@ public class Parameters implements Serializable {
     //limit
     if (null != limit) {
       paramMap.put("limit", limit);
-    }*/
+    }
     return paramMap;
   }
 

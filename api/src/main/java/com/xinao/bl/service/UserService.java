@@ -4,7 +4,9 @@
 
 package com.xinao.bl.service;
 
+import com.xinao.common.Limit;
 import com.xinao.common.Result;
+import com.xinao.common.ResultSet;
 import com.xinao.common.State;
 import com.xinao.entity.User;
 
@@ -17,4 +19,6 @@ public interface UserService {
   User findUser();
   Result<User,State> findUserByPhone(String phone);
   Result<User,State> login(String phone,String password);
+
+  ResultSet<User,State> findUsers(Limit limit);
 }
